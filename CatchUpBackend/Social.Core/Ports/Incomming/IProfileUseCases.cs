@@ -2,5 +2,9 @@
 {
     public interface IProfileUseCases
     {
+        Task<Guid> CreateProfileAsync(string userName);
+        Task UpdateProfileAsync(Guid profileId, string? name, byte[]? profilePic, string? bio);
+        Task AddFriendAsync(Guid profileId, Guid friendId);
+
     }
 }

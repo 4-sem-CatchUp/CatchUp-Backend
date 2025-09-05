@@ -2,7 +2,7 @@
 {
     public class Profile
     {
-        Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
         public byte[] ProfilePic { get; set; } = Array.Empty<byte>();
         public string Bio { get; set; } = string.Empty;
