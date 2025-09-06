@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CatchUp_TestProject
+namespace SocialCoreTests
 {
     [TestClass]
     public class ProfileTests

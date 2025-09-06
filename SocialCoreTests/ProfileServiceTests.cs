@@ -3,7 +3,7 @@ using CatchUpBackend.Social.Core.Application;
 using CatchUpBackend.Social.Core.Ports.Outgoing;
 using Moq;
 
-namespace CatchUp_TestProject
+namespace SocialCoreTests
 {
     [TestClass]
     public class ProfileServiceTests

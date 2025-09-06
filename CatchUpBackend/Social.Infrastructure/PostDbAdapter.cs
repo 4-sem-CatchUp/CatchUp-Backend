@@ -11,35 +11,32 @@ namespace CatchUpBackend.Social.Infrastructure
             _context = context;
         }
 
-        public Task AddPostAsync(Post post)
+        public Task AddAsync(Post post)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeletePostAsync(Guid postId)
+        public Task DeleteAsync(Guid postId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Post>> GetAllPostsAsync()
+        public Task<IEnumerable<Post>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Post> GetPostByIdAsync(Guid postId)
+        public Task<Post?> GetByIdAsync(Guid postId)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdatePostAsync(Post post)
+        public Task UpdateAsync(Post post)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpvoteCommentAsync(Guid postId, Guid commentId)
-        {
-            throw new NotImplementedException();
-        }
+
 
         //public async Task AddPostAsync(Post post)
         //{

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CatchUpBackend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a204c6a9caf0bbc0857925d300f2aef9df1ce50b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4523c3f8c6d88ca2c755094da2c48fc366325288")]
 [assembly: System.Reflection.AssemblyProductAttribute("CatchUpBackend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CatchUpBackend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

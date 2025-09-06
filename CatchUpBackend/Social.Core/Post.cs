@@ -10,41 +10,56 @@ namespace CatchUpBackend.Social.Core
 
         public string Content { get; set; }
 
-        public int Upvotes { get; set; }
-
-        public int Downvotes { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        private readonly List<Comment> _comments;
+        private readonly List<Comment> _comments = new();
 
         public IReadOnlyList<Comment> Comments => _comments.AsReadOnly();
 
+        private readonly List<Vote> _votes = new();
 
+        public IReadOnlyList<Vote> Votes => _votes.AsReadOnly();
+
+        private int _karma;
+        public int Karma
+        {
+            get
+            {
+                _karma = 0;
+                foreach (var vote in Votes)
+                {
+                    _karma += vote.Upvote ? 1 : -1;
+                }
+                return _karma;
+            }
+        }
         public Post() { }
         public Post(Guid authorId,
                     string title,
-                    string content)
+                    string content, 
+                    DateTime createdAt)
         {
             AuthorId = authorId;
             Title = title;
             Content = content;
+            CreatedAt = createdAt;
+            _votes = new List<Vote>();
+            _comments = new List<Comment>();
         }
 
         public Post(Guid id,
                     Guid authorId,
                     string title,
                     string content,
-                    int upvotes,
-                    int downvotes,
                     DateTime createdAt,
-                    List<Comment> comments)
+                    List<Comment> comments,
+                    List<Vote> votes)
         {
             Id = id;
             AuthorId = authorId;
             Title = title;
             Content = content;
-            Upvotes = upvotes;
-            Downvotes = downvotes;
+            _votes = votes;
             CreatedAt = createdAt;
             _comments = comments;
         }
@@ -56,14 +71,71 @@ namespace CatchUpBackend.Social.Core
                 AuthorId = authorId,
                 Title = title,
                 Content = content,
-                Upvotes = 0,
-                Downvotes = 0,
                 CreatedAt = DateTime.UtcNow,
             };
         }
-        public void AddComment(Guid authorId, string text) 
+        public Comment AddComment(Guid authorId, string text) 
         {
-            Comment.CreateNewComment(AuthorId, text);
+            var comment = Comment.CreateNewComment(authorId, text);
+            _comments.Add(comment);
+            return comment;
+
+        }
+
+        public Vote AddVote(Guid userId, bool upvote)
+        {
+            var vote = Votes.FirstOrDefault(v => v.UserId == userId);
+            if (vote != null)
+            {
+                if (vote.Upvote != upvote) 
+                {  
+                    vote.Upvote = upvote;
+                    vote.Action = VoteAction.Update;
+                }
+                else if (vote.Upvote == upvote)
+                {
+                    _votes.Remove(vote);
+                    vote.Action = VoteAction.Remove;
+                }
+            }
+            
+
+            else
+            {
+                vote = new Vote
+                {
+                    Id = Guid.NewGuid(),
+                    TargetId = this.Id,
+                    VoteTargetType = VoteTargetType.Post,
+                    UserId = userId,
+                    Upvote = upvote,
+                    Action = VoteAction.Add
+                };
+                _votes.Add(vote);
+            }
+            return vote;
+        }
+
+        public bool? GetUserVote(Guid userId)
+        {
+            var vote = Votes.FirstOrDefault(v => v.UserId == userId);
+            return vote?.Upvote;
+        }
+
+        public void UpdatePost(string? newTitle, string? newContent) 
+        { 
+            if (newTitle != null)
+                Title = newTitle; 
+            if (newContent != null)
+                Content = newContent;
+        }
+        public void RemoveComment(Guid commentId)
+        {
+            var comment = Comments.FirstOrDefault(c => c.Id == commentId);
+            if (comment != null)
+            {
+                _comments.Remove(comment);
+            }
         }
     }
 }
